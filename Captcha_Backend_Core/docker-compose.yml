@@ -1,0 +1,15 @@
+version: '3.0'
+
+services:
+  url-phising:
+    build: .
+    command: python3 app.py
+    volumes:
+      - .:/app
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/modelDir:/app/modelDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/datasetDir:/app/datasetDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/sampleDir:/app/sampleDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/inferDir:/app/inferDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/filterDir:/app/filterDir
+    ports:
+      - 5676:5676

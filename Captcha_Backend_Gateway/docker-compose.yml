@@ -1,0 +1,52 @@
+
+version: '1.0'
+
+services:
+  # ngrok:
+  #   image: wernight/ngrok
+  #   ports:
+  #   - "8081:8081"
+  #   command:
+  #   - /bin/sh
+  #   - -c
+  #   - |
+  #     ngrok start --all
+  #   volumes:
+  #   - .:/home/ngrok/.ngrok2/
+  #   depends_on:
+  #   - api-service
+  #   - nginx
+  
+  api-service:
+    build: .
+    depends_on:
+      - mongo
+    restart: always
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/modelDir:/home/node/app/modelDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/datasetDir:/home/node/app/datasetDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/sampleDir:/home/node/app/sampleDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/inferDir:/home/node/app/inferDir
+      - /home/hoangtrongbinh/HoangTrongBinh/Phising_Mail/filterDir:/home/node/app/filterDir
+    ports:
+      - 6790:6790
+
+  mongo:
+    image: mongo
+    volumes: 
+      - ./data/db:/data/db
+    ports:
+      - 27019:27019
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      
+  # nginx:
+  #   image: nginx
+  #   ports:
+  #   - "8080:8080"
+  #   volumes:
+  #   - ./nginx-conf/nginx.conf:/etc/nginx/nginx.conf:ro
