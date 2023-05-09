@@ -69,7 +69,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
       const { config, logId } = await Lab.findOne({ labId: data.labId });
       const modelData = await Model.findOne({ modelId: config.modelId });
       const datasetData = await Dataset.findOne({ datasetId: config.datasetId });
-      const trainId = data.sid;
+      const trainId = data.labId;
       await _io.emit(`start_training`, {
         config: modelData.modelName,
         data_root: `${datasetData.savePath}`,
@@ -106,7 +106,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
       const { config, logId } = await Lab.findOne({ labId: data.labId });
       const modelData = await Model.findOne({ modelId: config.modelId });
       const datasetData = await Dataset.findOne({ datasetId: config.datasetId });
-      const testId = data.sid;
+      const testId = data.labId;
       await _io.emit(`start_testing`, {
         config: modelData.modelName,
         data_root: `${datasetData.savePath}`,
@@ -140,7 +140,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
     socket.on("start_infer_model", async (file, data) => {
       const { config, logId } = await Lab.findOne({ labId: data.labId });
       const modelData = await Model.findOne({ modelId: config.modelId });
-      const inferId = data.sid;
+      const inferId = data.labId;
       // create folder
       const root = path.resolve("./");
       let savePath = `/${INFER_DATA_FOLDER}/${inferId}`;
@@ -183,7 +183,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
       const modelData = await Model.findOne({ modelId: config.modelId });
       const datasetData = await Dataset.findOne({ datasetId: config.datasetId });
       const sampleData = await Sample.findOne({ sampleId: data.sampleId });
-      const compareId = data.sid;
+      const compareId = data.labId;
       await _io.emit(`start_comparing_phase_testing`, {
         test_data_dir: `${datasetData.savePath}/test.csv`,
         sample_model_dir: sampleData.savePath,
@@ -203,7 +203,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
       const { config, logId } = await Lab.findOne({ labId: data.labId });
       const modelData = await Model.findOne({ modelId: config.modelId });
       const sampleData = await Sample.findOne({ sampleId: data.sampleId });
-      const compareId = data.sid;
+      const compareId = data.labId;
       await _io.emit(`start_comparing_phase_infering`, {
         sample_path: data.sample_path,
         sample_model_dir: sampleData.savePath,
